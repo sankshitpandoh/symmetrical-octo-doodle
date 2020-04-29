@@ -16,7 +16,7 @@ server.listen(8000, function() {
   });
 
 let players = []
-let dValues = []
+let dValues
 let currentTurn = 0
 let timeOut
 let turn = 0
@@ -39,7 +39,7 @@ function triggerTimeout(){
 
 function autoMove(){
     let diceNumber = Math.round(Math.random() * 6)
-    dValues.push(diceNumber)
+    dValues = diceNumber
     console.log(dValues)
     giveData()
 }
@@ -57,7 +57,7 @@ io.on('connection', function(socket){
     players.push(socket);
     socket.on('pass_turn', function(data){
         if(players[turn] == socket){
-            dValues.push(data)
+            dValues = (data)
             console.log(dValues)
             resetTimeOut();
             giveData()
