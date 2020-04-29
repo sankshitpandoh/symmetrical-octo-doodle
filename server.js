@@ -66,7 +66,6 @@ io.on('connection', function(socket){
             let newObj ={
                 'numberOfplayers': players.length,
                 'dValues': dValues,
-                'player': players.socket.id
             }
             resetTimeOut();
             giveData(newObj)
