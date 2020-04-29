@@ -3,7 +3,9 @@
     height: 100px;
     background-color: blueviolet;
 }
-.players{
+.player{
     width: 25px;
     height: 25px;
+    background-color: black;
+    margin: 5px;
 }

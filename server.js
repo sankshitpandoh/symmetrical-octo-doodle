@@ -17,8 +17,8 @@ server.listen(8000, function() {
 
 let players = []
 let dValues
-let currentTurn = 0
 let timeOut
+let currentTurn = 0
 let turn = 0
 let value = 0
 const MaxWaiting = 5000
@@ -41,7 +41,11 @@ function autoMove(){
     let diceNumber = Math.round(Math.random() * 6)
     dValues = diceNumber
     console.log(dValues)
-    giveData()
+    let newObj ={
+        'numberOfplayers': players.length,
+        'dValues': dValues
+    }
+    giveData(newObj)
 }
 
 function resetTimeOut(){
@@ -59,8 +63,13 @@ io.on('connection', function(socket){
         if(players[turn] == socket){
             dValues = (data)
             console.log(dValues)
+            let newObj ={
+                'numberOfplayers': players.length,
+                'dValues': dValues,
+                'player': players.socket.id
+            }
             resetTimeOut();
-            giveData()
+            giveData(newObj)
             nextTurn();
         }
     })
@@ -71,29 +80,6 @@ io.on('connection', function(socket){
         console.log("A number of players now ",players.length);
       });
 })
-function giveData(){
-    io.sockets.emit('state', dValues);
+function giveData(newObj){
+    io.sockets.emit('state', newObj);
 }
-
-// let players = {}
-
-// io.on('connection', function(socket){
-//     socket.on('new player', function(){
-//         console.log("New player has connected")
-//         players[socket.id] = {
-//             num: 0,
-//             turn: true
-//         };
-//     });
-//     socket.on('diceNumber', function(data){
-//         let player = players[socket.id] || {};
-//         player.num = data.number,
-//         player.turn = data.turn
-//     });
-// });
-// io.on('disconnect', () => {
-//     console.log('user disconnected');
-//   });
-// setInterval(function(){
-//     io.sockets.emit('state', players);
-// }, 1000/60)
